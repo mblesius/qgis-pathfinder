@@ -45,6 +45,7 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
         self.single_path_quote.stateChanged.connect(lambda v: self.on_changed('single_path_quote', v))
         self.single_path_affix.stateChanged.connect(lambda v: self.on_changed('single_path_affix', v))
         self.paths_on_new_line.stateChanged.connect(lambda v: self.on_changed('paths_on_new_line', v))
+        self.affix_to_each_path.stateChanged.connect(lambda v: self.on_changed('affix_to_each_path', v))
         self.show_notification.stateChanged.connect(lambda v: self.on_changed('show_notification', v))
         self.original_vrt_ds.stateChanged.connect(lambda v: self.on_changed('original_vrt_ds', v))
 
@@ -71,6 +72,7 @@ class PathfinderSettingsDialog(QDialog, FORM_CLASS):
         self.single_path_quote.setCheckState(self.settings.value('single_path_quote', DEFAULTS['single_path_quote'], int))
         self.single_path_affix.setCheckState(self.settings.value('single_path_affix', DEFAULTS['single_path_affix'], int))
         self.paths_on_new_line.setCheckState(self.settings.value('paths_on_new_line', DEFAULTS['paths_on_new_line'], int))
+        self.affix_to_each_path.setCheckState(self.settings.value('affix_to_each_path', DEFAULTS['affix_to_each_path'], int))
         self.show_notification.setCheckState(self.settings.value('show_notification', DEFAULTS['show_notification'], int))
         self.original_vrt_ds.setCheckState(self.settings.value('original_vrt_ds', DEFAULTS['original_vrt_ds'], int))
 

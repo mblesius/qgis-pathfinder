@@ -80,12 +80,20 @@ class Pathfinder:
                 pre = ''
                 post = ''
 
-        # should paths go onto separate lines?
-        elif n > 1 and settings.value('paths_on_new_line', type=bool):
-            s += '\n'
+            d = paths.pop()
+            return f'{pre}{q}{qpr.encodeUri(d.pop("provider"), d)}{q}{post}'
 
-        out = s.join([f'{q}{qpr.encodeUri(d.pop("provider"), d)}{q}' for d in paths])
-        return f'{pre}{out}{post}'
+        elif n > 1:
+            # should paths go onto separate lines?
+            if settings.value('paths_on_new_line', type=bool):
+                s += '\n'
+
+            # should affixes be applied to each path?
+            if settings.value('affix_to_each_path', type=bool):
+                return s.join([f'{pre}{q}{qpr.encodeUri(d.pop("provider"), d)}{q}{post}' for d in paths])
+            else:
+                out = s.join([f'{q}{qpr.encodeUri(d.pop("provider"), d)}{q}' for d in paths])
+                return f'{pre}{out}{post}'
 
     def notify(self, message):
         """Show QGIS notification, if setting is enabled.

@@ -466,6 +466,16 @@
         </property>
        </spacer>
       </item>
+      <item row="1" column="1">
+       <widget class="QCheckBox" name="affix_to_each_path">
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Whether to add prefix and postfix characters to each path when multiple paths are returned.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="text">
+         <string>apply affixes to each path</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
@@ -527,6 +537,7 @@
   <tabstop>single_path_quote</tabstop>
   <tabstop>paths_on_new_line</tabstop>
   <tabstop>single_path_affix</tabstop>
+  <tabstop>affix_to_each_path</tabstop>
   <tabstop>show_notification</tabstop>
   <tabstop>notify_duration</tabstop>
  </tabstops>
