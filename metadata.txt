@@ -3,14 +3,18 @@ name=pathfinder
 email=silvio.bentzien@protonmail.com
 author=silvio bentzien
 qgisMinimumVersion=3.40
+qgisMaximumVersion=4.99
 supportsQt6=True
 description=A QGIS plugin that helps you locate and work with your layer file paths.
 about=
     Add actions to the layer context menu for copying its source or opening the file location. Customize quoting and separation characters in the pathfinder settings. Shift + Right Click adds a Copy Path command with double backslashes.
 
-version=version 1.0.2
+version=version 1.0.3
 
 changelog=
+    1.0.3 2025-09-30
+        * QGIS4 support
+
     1.0.2 2025-06-10
         * restore Open in Explorer functionality on Linux & Mac
         * handfull of small fixes and optimizations
