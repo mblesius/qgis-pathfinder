@@ -35,7 +35,7 @@ class PathfinderPlugin:
         self.iface.layerTreeView().contextMenuAboutToShow.connect(modify_context_menu)
 
         # register settings
-        Settings()
+        self.settings = Settings()
 
         # setting up keyboard shortcut actions
         self.copy_action1 = QAction(icon_copy_path, tr('Copy Path'), self.iface.mainWindow())
@@ -55,7 +55,10 @@ class PathfinderPlugin:
         # register settings dialog
         self.settings_dialog = QAction(icon_copy_path, tr('Settings…'), self.iface.mainWindow())
         self.settings_dialog.triggered.connect(self.show_settings_dialog)
-        self.iface.addToolBarIcon(self.settings_dialog)
+
+        # conditionally add to toolbar
+        if self.settings.show_toolbar_icon.value():
+            self.iface.addToolBarIcon(self.settings_dialog)
 
         # shortcuts won't work unless actions are added to this menu
         self.menu = self.iface.pluginMenu().addMenu(icon_copy_path, '&pathfinder')
@@ -63,7 +66,27 @@ class PathfinderPlugin:
         self.menu.addAction(self.copy_action2)
         self.menu.addAction(self.show_action)
         self.menu.addSeparator()
+
         self.menu.addAction(self.settings_dialog)
+
+        # toggle for toolbar icon
+        self.toggle_toolbar_icon_action = QAction(tr('Show Toolbar Icon'), self.iface.mainWindow())
+        self.toggle_toolbar_icon_action.setCheckable(True)
+        self.toggle_toolbar_icon_action.setChecked(self.settings.show_toolbar_icon.value())
+        self.toggle_toolbar_icon_action.toggled.connect(self.on_toggle_toolbar_icon)
+        self.menu.addAction(self.toggle_toolbar_icon_action)
+
+    def on_toggle_toolbar_icon(self, checked):
+        """Toggle toolbar icon visibility.
+
+        Args:
+            checked (bool): whether toolbar icon should be visible
+        """
+        self.settings.show_toolbar_icon.setValue(checked)
+        if checked:
+            self.iface.addToolBarIcon(self.settings_dialog)
+        else:
+            self.iface.removeToolBarIcon(self.settings_dialog)
 
     # noinspection PyMethodMayBeStatic
     def on_triggered(self, fn):
@@ -71,7 +94,6 @@ class PathfinderPlugin:
 
         Args:
             fn: method name
-
         """
         if (pf := Pathfinder()).layers_selected:
             pf.parse_selected()
@@ -92,5 +114,5 @@ class PathfinderPlugin:
         self.iface.unregisterMainWindowAction(self.copy_action2)
         self.iface.unregisterMainWindowAction(self.show_action)
         self.iface.layerTreeView().contextMenuAboutToShow.disconnect(modify_context_menu)
-        Settings.unregister()
+        self.settings.unregister()
         del self.dialog

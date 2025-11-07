@@ -10,6 +10,7 @@ class Settings:
         if cls.instance is None:
             cls.instance = super().__new__(cls)
             settings_node = QgsSettingsTree.createPluginTreeNode(pluginName='pathfinder')
+            cls.show_toolbar_icon = QgsSettingsEntryBool(name='show_toolbar_icon', parent=settings_node, defaultValue=True, description='Whether to show a toolbar button for the settings dialog.')
 
             cls.quote_char = QgsSettingsEntryString(name='quote_char', parent=settings_node, defaultValue='"', description='The character surrounding individual paths.')
             cls.separ_char = QgsSettingsEntryString(name='separ_char', parent=settings_node, defaultValue=tr('Space'), description='The character separating multiple paths.')
