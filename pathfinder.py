@@ -11,24 +11,27 @@ from pathfinder.lib.constants import PLUGIN_DIR
 
 # noinspection PyAttributeOutsideInit
 class PathfinderPlugin:
-    def __init__(self, iface: QgisInterface):
-        self.iface = iface
-        settings = QSettings()
+    def __init__(self, iface):
+        """Initialize plugin.
 
+        Args:
+            iface (QgisInterface): QGIS interface object.
+        """
+        self.iface = iface
+        self.dialog = None
+        self.menu = None
+
+    # noinspection PyPep8Naming
+    def initGui(self):
+        """Prepare GUI."""
         # initialize locale and translator
-        locale = settings.value('locale/userLocale')[0:2]
+        locale = QSettings().value('locale/userLocale')[0:2]
 
         if (locale_path := PLUGIN_DIR / 'i18n' / f'pathfinder_{locale}.qm').exists():
             self.translator = QTranslator()
             self.translator.load(str(locale_path))
             QCoreApplication.installTranslator(self.translator)
 
-        self.dialog = None
-        self.menu = None
-
-    # noinspection PyPep8Naming
-    def initGui(self):
-        """Register event filter and add toolbar icon."""
         self.iface.layerTreeView().contextMenuAboutToShow.connect(modify_context_menu)
 
         # register settings
